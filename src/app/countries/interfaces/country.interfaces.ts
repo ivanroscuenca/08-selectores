@@ -4,7 +4,7 @@ export interface SmallCountry {
   borders: string[];
 }
 
-export interface Countries {
+export interface Country {
   name: Name;
   cca3: string;
   status: Status;
