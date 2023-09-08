@@ -1,4 +1,8 @@
-import { NG_ASYNC_VALIDATORS } from '@angular/forms';
+export interface SmallCountry {
+  name: string;
+  cca3: string;
+  borders: string[];
+}
 
 export interface Countries {
   name: Name;
