@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Region, SmallCountry } from '../interfaces/country.interfaces';
+import { Observable, of, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { response } from 'express';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CountriesService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
+
+  private baseUrl: string = 'https://restcountries.com/v3.1/';
   //_ significa una convención utilizada para indicar que la variable o propiedad es privada y no debería ser accedida o modificada directamente desde fuera de la clase
   private _regions: Region[] = [
     Region.Africa,
@@ -18,7 +23,12 @@ export class CountriesService {
     return [...this._regions];
   }
 
-  getCountriesByRegion(region: Region): SmallCountry {
-    return [];
+  getCountriesByRegion(region: Region): Observable<SmallCountry[]> {
+    if (!region) return of([]);
+
+    const url: string = `${this.baseUrl}/region/${region}?fields=cca3,name,borders`;
+    return this.http
+      .get<SmallCountry[]>(url)
+      .pipe(tap((response) => console.log({ response })));
   }
 }
